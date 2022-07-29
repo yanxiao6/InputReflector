@@ -1,6 +1,6 @@
 # InputReflector
 
-Code release and supplementary materials for the InputReflector.
+Code release and supplementary materials for the InputReflector titled "Repairing Failure-inducing Inputs with Input Reflection".
 
 ## Introduction
 
@@ -46,13 +46,13 @@ Its aim is to make the maximum intra-class distance smaller than the minimum int
 
 Then, the hardest negative pairs are sampled whose distance is the minimum among all negative pairs in each batch during training (line 11-13).  Finally <!-- $loss_{an}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Ban%7D"> is minimized to further enlarge the inter-class variations in Line 14.
 
-<img src="algo2.png" alt="Sampling in Quadroplet Loss" style="zoom: 50%;" />
+<img src="images/algo2.png" alt="Sampling in Quadroplet Loss" style="zoom: 50%;" />
 
 ## Supplementary Results
 
 In our experiment, we trained a distribution analyzer with one transformation (e.g., “blur” ) to detect other unseen transformations (zoom/contrast/bright), which proved to be effective. And training with more transformations can further improve performance. Our preliminary results (i.e., training with blur+zoom inputs to detect contrast+bright+rotate+shear inputs) as shown in the following table confirms this.
 
-<img src="Tab2.png" alt="Table1" style="zoom:50%;" />
+<img src="images/Tab.png" alt="Table1" style="zoom:50%;" />
 
 
 
