@@ -85,6 +85,8 @@ pip install -r requirements.txt
 
 In Section 3.2.1, InputReflector uses Quadruplet network for the reflection process. During the construction of the Quadruplet network, the challenge is how to sample the quadruplet from the training data. Algorithm 2 discusses how to mine quadruplet samples during training. The sample mining process of the Siamese network in Section 3.1 also uses this technique. We omit Algorithm 2 due to space limitation.
 
+<img src="images/algo2.png" alt="Sampling in Quadroplet Loss" style="zoom: 50%;" />
+
 The loss of the Quadruplet network consists of two parts (Line 15 in Algorithm 2). The first part, <!-- $loss_{an}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Ban%7D">, is the traditional triplet loss that is the main constraint. The second part, <!-- $loss_{nn}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Bnn%7D">, is auxiliary to the first loss and conforms to the structure of traditional triplet loss but has different triplets. We use two different margins (<!-- $m_{1} > m_{2}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=m_%7B1%7D%20%3E%20m_%7B2%7D">) to balance the two constraints. We now discuss how to mine triplets for each loss.
 
 First, a 2D matrix of distances between all the embeddings is
@@ -100,13 +102,6 @@ Its aim is to make the maximum intra-class distance smaller than the minimum int
 
 Then, the hardest negative pairs are sampled whose distance is the minimum among all negative pairs in each batch during training (line 11-13).  Finally <!-- $loss_{an}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Ban%7D"> is minimized to further enlarge the inter-class variations in Line 14.
 
-<img src="images/algo2.png" alt="Sampling in Quadroplet Loss" style="zoom: 50%;" />
-
-<!-- ## Supplementary Results
-
-In our experiment, we trained a distribution analyzer with one transformation (e.g., “blur” ) to detect other unseen transformations (zoom/contrast/bright), which proved to be effective. And training with more transformations can further improve performance. Our preliminary results (i.e., training with blur+zoom inputs to detect contrast+bright+rotate+shear inputs) as shown in the following table confirms this.
-
-<img src="images/Tab.png" alt="Table1" style="zoom:50%;" /> -->
 
 
 
