@@ -1,14 +1,66 @@
-# InputReflector
 
-Code release and supplementary materials for the InputReflector titled "Repairing Failure-inducing Inputs with Input Reflection".
+<h1 align="center">InputReflector</h1>
 
-## Introduction
 
-In this paper we describe a runtime approach that mitigates
-DNN mis-predictions caused by the unexpected runtime inputs to
-the DNN.
+<p align="center">
+<b>
+A runtime approach that mitigates
+DNN mis-predictions caused by the unexpected inputs to
+the DNN.</b>
+<br/><br/>
+<a href=""><img src="images/figure1.png" alt="Logo" width=80%></a>
 
-### Repo structure
+
+
+<p align="center">
+Code release and supplementary materials for:</br>
+  <b>"Repairing Failure-inducing Inputs with Input Reflection"</b></br>
+    The 37th IEEE/ACM International Conference on Automated Software Engineering (<b>ASE 2022</b>)
+    <br />
+    <a href="https://yanxiao6.github.io/">Yan Xiao</a>
+    ·
+    <a href="http://linyun.info">Yun Lin</a>
+    ·
+    <a href="https://www.cs.ubc.ca/~bestchai/">Ivan Beschastnikh</a>
+    ·
+    <a href="https://sunchangsheng.com">Changsheng Sun</a>
+    <br/>
+    <a href="https://cs.gmu.edu/~dsr/">David S. Rosenblum</a>
+    ·
+    <a href="https://www.comp.nus.edu.sg/~dongjs/">Jin Song Dong</a>
+    <br/><br/>
+    <a href="https://www.comp.nus.edu.sg"><img src="https://www.comp.nus.edu.sg/templates/t3_nus2015/images/assets/logos/logo.png" alt="Logo" height=45px style="padding-right: 40px; padding left: 20px;"> </a>  <br/>
+    <a href=""> <img src="https://brand3.sites.olt.ubc.ca/files/2018/09/5NarrowLogo_ex_768.png" height=50px style="padding-right: 20px; padding left: 20px;"> </a>
+    <a href=""> <img src="https://cs.gmu.edu/~dsr/images/GMU_PLogo_RGB.jpg" height=60px style="padding-right: 20px; padding left: 20px;"> </a>
+    <br/><br/>
+  </p>
+
+
+<p align="center">
+    <!-- <a href="https://pytorch.org/get-started/locally/"><img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-ee4c2c?logo=pytorch&logoColor=white"></a>
+    <a href="https://pytorchlightning.ai/"><img alt="Lightning" src="https://img.shields.io/badge/-Lightning-792ee5?logo=pytorchlightning&logoColor=white"></a><br><br> -->
+    <a href='http://linyun.info/publications/ase22.pdf'>
+      <img src='https://img.shields.io/badge/Paper-PDF(NotFinalVersion)-green?style=flat&logo=arXiv&logoColor=green' alt='Paper PDF'>
+    </a>
+    <!-- <a href='https://arxiv.org/abs/2103.02371'>
+      <img src='https://img.shields.io/badge/arXiv-1234.56789-b31b1b.svg' alt='Paper PDF'>
+    </a>  -->
+    <a href='https://trustdnn.comp.nus.edu.sg'>
+      <img src='https://img.shields.io/badge/Project-Page-blue?style=flat&logo=Google%20chrome&logoColor=blue' alt='Project Page'>
+    <a href='https://youtu.be/'>
+      <img src='https://img.shields.io/badge/Presentation-Video-red?style=flat&logo=youtube&logoColor=red' alt='Youtube Video'>
+    </a>
+    <!-- <a href='https://colab.research.google.com/drive/' style='padding-left: 0.5rem;'>
+      <img src='https://colab.research.google.com/assets/colab-badge.svg' alt='Google Colab'>
+    </a>
+    <a href='https://discord.gg/' style='padding-left: 0.5rem;'>
+      <img src='https://img.shields.io/badge/Discord-Room-purple?style=flat&logo=Discord&logoColor=purple' alt='Discord Room'> -->
+    </a>
+  </p>
+</p>
+
+
+## Repo structure
 - `resnet.py`: code for Resnet-20 to train the subject models
 - `train_model.py`: code for ConvNet and VGG-16 to train the subject models
 - `special_transformation.py`: code for transformations
@@ -19,17 +71,19 @@ the DNN.
 - `collect_auroc_sia.py`: generate AUROC from the distance
 - `search_threshold_quad.py`: search for the best threshold of detecting deviated data on the validation dataset and calculate the model accuracy after calling InputReflector
 
-### Dependencies
+## Dependencies
 pip install -r requirements.txt
 
-### How to run
+## How to run
 
 - To train the subject models and InputReflector: bash log.sh
 - To evaluate the performance of InputReflector: bash log_eval.sh
 
 
-## Algorithm 2
+## Supplementary
 ### Sampling in Quadroplet Loss
+
+In Section 3.2.1, InputReflector uses Quadruplet network for the reflection process. During the construction of the Quadruplet network, the challenge is how to sample the quadruplet from the training data. Algorithm 2 discusses how to mine quadruplet samples during training. The sample mining process of the Siamese network in Section 3.1 also uses this technique. We omit Algorithm 2 due to space limitation.
 
 The loss of the Quadruplet network consists of two parts (Line 15 in Algorithm 2). The first part, <!-- $loss_{an}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Ban%7D">, is the traditional triplet loss that is the main constraint. The second part, <!-- $loss_{nn}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=loss_%7Bnn%7D">, is auxiliary to the first loss and conforms to the structure of traditional triplet loss but has different triplets. We use two different margins (<!-- $m_{1} > m_{2}$ --> <img style="transform: translateY(0.1em); background: white;" src="https://render.githubusercontent.com/render/math?math=m_%7B1%7D%20%3E%20m_%7B2%7D">) to balance the two constraints. We now discuss how to mine triplets for each loss.
 
@@ -48,11 +102,28 @@ Then, the hardest negative pairs are sampled whose distance is the minimum among
 
 <img src="images/algo2.png" alt="Sampling in Quadroplet Loss" style="zoom: 50%;" />
 
-## Supplementary Results
+<!-- ## Supplementary Results
 
 In our experiment, we trained a distribution analyzer with one transformation (e.g., “blur” ) to detect other unseen transformations (zoom/contrast/bright), which proved to be effective. And training with more transformations can further improve performance. Our preliminary results (i.e., training with blur+zoom inputs to detect contrast+bright+rotate+shear inputs) as shown in the following table confirms this.
 
-<img src="images/Tab.png" alt="Table1" style="zoom:50%;" />
+<img src="images/Tab.png" alt="Table1" style="zoom:50%;" /> -->
 
 
 
+## Citation
+```bibtex
+@inproceedings{xiao2022repairing,
+  title={Repairing Failure-inducing Inputs with Input Reflection},
+  author={Xiao, Yan and Lin, Yun and Beschastnikh, Ivan and Sun, Changsheng and Rosenblum, David S and Dong, Jin Song},
+  booktitle={2021 37th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  year={2022},
+  organization={IEEE}
+}
+```
+
+## License
+This code and model are available for non-commercial scientific research purposes as defined in the [LICENSE](LICENSE) file. By downloading and using the code and model you agree to the terms in the [LICENSE](LICENSE).
+
+## Contact
+
+For more questions, please contact <cssun@u.nus.edu>.
